@@ -344,7 +344,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 40
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -564,10 +564,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
   tilemap: {fileID: 707140064}
-  player: {fileID: 863554044}
+  target: {fileID: 863554044}
   tiles: []
-  ChunkSize: 10
-  NumOfChunk: 2
+  width: 50
+  height: 50
 --- !u!483693784 &707140063
 TilemapRenderer:
   serializedVersion: 2
