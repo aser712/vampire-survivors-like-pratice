@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using static UnityEngine.GraphicsBuffer;
 
 public class NewMonoBehaviourScript : MonoBehaviour
 {
@@ -14,35 +15,46 @@ public class NewMonoBehaviourScript : MonoBehaviour
     public int ChunkSize = 10;
 
     HashSet<Vector2Int> generatedChunks = new HashSet<Vector2Int>();
-    public int NumOfChunk = 2;
+    public int NumOfChunk = 1;
+
+    public GameObject[] prefabs;
+    public int maxObstacle = 8;
+    public int minObstacle = 5;
+    HashSet<GameObject> generatedObstacle = new HashSet<GameObject>();
+    public float checkRadius = 1.0f;
 
     void Start()
     {
         tiles = Resources.LoadAll<TileBase>("TileMap");
+        prefabs = Resources.LoadAll<GameObject>("Prefab/Obstacle");
+
     }
     void Update()
     {
         int currentChunkX = Mathf.FloorToInt(player.position.x / ChunkSize);
         int currentChunkY = Mathf.FloorToInt(player.position.y / ChunkSize);
 
-        for(int x = -NumOfChunk; x < NumOfChunk; x++)
+        for (int x = -NumOfChunk; x <= NumOfChunk; x++)
         {
-            for(int y = -NumOfChunk; y < NumOfChunk; y++)
+            for(int y = -NumOfChunk; y <= NumOfChunk; y++)
             {
                 Vector2Int chunkPos = new Vector2Int(
                 currentChunkX + x,  
                 currentChunkY + y
                 );
 
+
                 if (!generatedChunks.Contains(chunkPos))
                 {
                     GenerateChunk(chunkPos);
+                    GenerateObstacle(chunkPos);
                     generatedChunks.Add(chunkPos);
                 }
             }
         }
 
         RemoveFarChunk(currentChunkX, currentChunkY);
+        OnDrawGizmos();
     }
     void GenerateChunk(Vector2Int chunkPos)
     {
@@ -74,10 +86,17 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
             if (dx > NumOfChunk || dy > NumOfChunk)
             {
-                RemoveChunk(chunk);
                 chunksToRemove.Add(chunk);
             }
         }
+
+        foreach (Vector2Int chunk in chunksToRemove)
+        {
+            RemoveObstacle(chunk);
+            RemoveChunk(chunk);
+        }
+
+
 
     }
     void RemoveChunk(Vector2Int chunkPos)
@@ -95,8 +114,102 @@ public class NewMonoBehaviourScript : MonoBehaviour
                 );
             }
         }
-        generatedChunks.Remove( chunkPos );
+        generatedChunks.Remove(chunkPos);
     }
 
+    void GenerateObstacle(Vector2Int chunkPos)
+    {
+        int startX = chunkPos.x * ChunkSize;
+        int startY = chunkPos.y * ChunkSize;
+        int num = Random.Range(minObstacle, maxObstacle+1);
 
+        // 랜덤 프리팹 선택
+        for (int i = 0; i < num; i++)
+        {
+            GameObject randomPrefab =
+                prefabs[Random.Range(0, prefabs.Length)];
+
+            // 랜덤 위치 생성
+            Vector3 randomPos = new Vector3(
+                Random.Range(startX, startX + ChunkSize),
+                Random.Range(startY, startY + ChunkSize),
+                0
+            );
+
+            Collider2D hit = Physics2D.OverlapCircle(
+           randomPos,
+           checkRadius
+       );
+
+            // 프리팹 생성
+            if (hit == null)
+            {
+                GameObject obstacle = Instantiate(
+                    randomPrefab,
+                    randomPos,
+                    Quaternion.identity
+                );
+
+                generatedObstacle.Add(obstacle);
+            }
+        }
+    }
+    void RemoveObstacle(Vector2Int chunkPos)
+    {
+        List<GameObject> removeObstacle = new List<GameObject>();
+
+        foreach(GameObject obstacle in generatedObstacle)
+        {
+            int removeObstacleX = Mathf.FloorToInt(obstacle.transform.position.x / ChunkSize);
+            int removeObstacleY = Mathf.FloorToInt(obstacle.transform.position.y / ChunkSize);
+
+            if(removeObstacleX == chunkPos.x && removeObstacleY == chunkPos.y)
+            {
+                removeObstacle.Add( obstacle );
+            }
+        }
+
+        foreach(GameObject obstacle in removeObstacle)
+        {
+            generatedObstacle.Remove(obstacle);
+            Destroy(obstacle);
+        }
+    }
+    void OnDrawGizmos()
+    {
+        if (player == null)
+            return;
+
+        Vector2Int currentChunk = new Vector2Int(
+        (int)(player.position.x / ChunkSize),
+            (int)(player.position.y / ChunkSize)
+        );
+
+        foreach (Vector2Int chunk in generatedChunks)
+        {
+            // 현재 청크면 초록색
+            if (chunk == currentChunk)
+            {
+                Gizmos.color = Color.green;
+            }
+            else
+            {
+                Gizmos.color = Color.red;
+            }
+
+            Vector3 center = new Vector3(
+                chunk.x * ChunkSize + ChunkSize / 2f,
+                chunk.y * ChunkSize + ChunkSize / 2f,
+                0
+            );
+
+            Vector3 size = new Vector3(
+                ChunkSize,
+                ChunkSize,
+                0
+            );
+
+            Gizmos.DrawWireCube(center, size);
+        }
+    }
 }
