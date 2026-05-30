@@ -54,7 +54,6 @@ public class NewMonoBehaviourScript : MonoBehaviour
         }
 
         RemoveFarChunk(currentChunkX, currentChunkY);
-        OnDrawGizmos();
     }
     void GenerateChunk(Vector2Int chunkPos)
     {
@@ -173,43 +172,6 @@ public class NewMonoBehaviourScript : MonoBehaviour
         {
             generatedObstacle.Remove(obstacle);
             Destroy(obstacle);
-        }
-    }
-    void OnDrawGizmos()
-    {
-        if (player == null)
-            return;
-
-        Vector2Int currentChunk = new Vector2Int(
-        (int)(player.position.x / ChunkSize),
-            (int)(player.position.y / ChunkSize)
-        );
-
-        foreach (Vector2Int chunk in generatedChunks)
-        {
-            // 현재 청크면 초록색
-            if (chunk == currentChunk)
-            {
-                Gizmos.color = Color.green;
-            }
-            else
-            {
-                Gizmos.color = Color.red;
-            }
-
-            Vector3 center = new Vector3(
-                chunk.x * ChunkSize + ChunkSize / 2f,
-                chunk.y * ChunkSize + ChunkSize / 2f,
-                0
-            );
-
-            Vector3 size = new Vector3(
-                ChunkSize,
-                ChunkSize,
-                0
-            );
-
-            Gizmos.DrawWireCube(center, size);
         }
     }
 }
