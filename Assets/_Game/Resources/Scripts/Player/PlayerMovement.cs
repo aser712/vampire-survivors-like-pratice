@@ -27,6 +27,11 @@ public class Player_Movement : MonoBehaviour
     {
         status.TakeDamage(10);
     }
+    
+    void OnExp(InputValue value)
+    {
+        status.GetExp(1000);
+    }
 
     // Update is called once per frame
     void FixedUpdate()

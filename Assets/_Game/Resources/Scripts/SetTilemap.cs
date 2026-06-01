@@ -31,34 +31,50 @@ public class NewMonoBehaviourScript : MonoBehaviour
     }
     void Update()
     {
-        int currentChunkX = Mathf.FloorToInt(player.position.x / ChunkSize);
-        int currentChunkY = Mathf.FloorToInt(player.position.y / ChunkSize);
+        GenerateChunk(player.position);
+        RemoveFarChunk(player.position);
+    }
+
+    Vector2Int CheckCurrentChunk(Vector3 Pos) 
+    {
+        int currentChunkX = Mathf.FloorToInt(Pos.x / ChunkSize);
+        int currentChunkY = Mathf.FloorToInt(Pos.y / ChunkSize);
+
+        Vector2Int chunkPos = new Vector2Int(currentChunkX, currentChunkY);
+
+        return chunkPos;
+    }
+    Vector3Int CheckCurrentPos(Vector2Int pos)
+    {
+        int CurrentPosX = pos.x * ChunkSize;
+        int CurrentPosY = pos.y * ChunkSize;
+
+        Vector3Int CurrentPos = new Vector3Int(CurrentPosX, CurrentPosY);
+
+        return CurrentPos;
+    }
+
+    void GenerateChunk(Vector3 pos)
+    {
+        Vector2Int chunkPos = CheckCurrentChunk(pos);
 
         for (int x = -NumOfChunk; x <= NumOfChunk; x++)
         {
-            for(int y = -NumOfChunk; y <= NumOfChunk; y++)
+            for (int y = -NumOfChunk; y <= NumOfChunk; y++)
             {
-                Vector2Int chunkPos = new Vector2Int(
-                currentChunkX + x,  
-                currentChunkY + y
-                );
-
-
-                if (!generatedChunks.Contains(chunkPos))
+                Vector2Int aroundChunk = new Vector2Int(chunkPos.x + x, chunkPos.y + y);
+                if (!generatedChunks.Contains(aroundChunk))
                 {
-                    GenerateChunk(chunkPos);
-                    GenerateObstacle(chunkPos);
-                    generatedChunks.Add(chunkPos);
+                    GenerateChunkTile(aroundChunk);
+                    GenerateObstacle(aroundChunk);
+                    generatedChunks.Add(aroundChunk);
                 }
             }
         }
-
-        RemoveFarChunk(currentChunkX, currentChunkY);
     }
-    void GenerateChunk(Vector2Int chunkPos)
+    void GenerateChunkTile(Vector2Int chunkPos)
     {
-        int startX = chunkPos.x * ChunkSize;
-        int startY = chunkPos.y * ChunkSize;
+        Vector3Int currentPos = CheckCurrentPos(chunkPos);
 
         for (int x = 0; x < ChunkSize; x++)
         {
@@ -67,21 +83,22 @@ public class NewMonoBehaviourScript : MonoBehaviour
                 TileBase tile = tiles[Random.Range(0, tiles.Length)];
 
                 tilemap.SetTile(
-                    new Vector3Int(startX + x, startY + y, 0),
+                    new Vector3Int(currentPos.x + x, currentPos.y + y, 0),
                     tile
                 );
             }
         }
     }
 
-    void RemoveFarChunk(int currentChunkX, int currentChunkY)
+    void RemoveFarChunk(Vector3 currentPos)
     {
+        Vector2Int chunkPos = CheckCurrentChunk(currentPos);
         List<Vector2Int> chunksToRemove = new List<Vector2Int>();
 
         foreach (Vector2Int chunk in generatedChunks) 
         {
-            int dx = Mathf.Abs(chunk.x - currentChunkX);
-            int dy = Mathf.Abs(chunk.y - currentChunkY);
+            int dx = Mathf.Abs(chunk.x - chunkPos.x);
+            int dy = Mathf.Abs(chunk.y - chunkPos.y);
 
             if (dx > NumOfChunk || dy > NumOfChunk)
             {
@@ -100,15 +117,14 @@ public class NewMonoBehaviourScript : MonoBehaviour
     }
     void RemoveChunk(Vector2Int chunkPos)
     {
-        int startX = chunkPos.x * ChunkSize;
-        int startY = chunkPos.y * ChunkSize;
+        Vector3Int currentPos = CheckCurrentPos(chunkPos);
 
         for (int x = 0; x < ChunkSize; x++)
         {
             for (int y = 0; y < ChunkSize; y++)
             {
                 tilemap.SetTile(
-                    new Vector3Int(startX + x, startY + y, 0),
+                    new Vector3Int(currentPos.x + x, currentPos.y + y, 0),
                     null
                 );
             }
