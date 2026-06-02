@@ -190,6 +190,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4840195573132075197, guid: 38e0e78eeaeb13a44a11e1d8b8daead7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 863554050}
+    - targetCorrespondingSourceObject: {fileID: 4840195573132075197, guid: 38e0e78eeaeb13a44a11e1d8b8daead7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 863554056}
   m_SourcePrefab: {fileID: 100100000, guid: 38e0e78eeaeb13a44a11e1d8b8daead7, type: 3}
 --- !u!1 &345455031
 GameObject:
@@ -571,7 +574,7 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -852,6 +855,20 @@ MonoBehaviour:
   speed: 5
   level: 1
   exp: 0
+--- !u!114 &863554056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 255036313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2b786fc1305a204c8bb3d59955e3783, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_SkillManager
+  bladePrefab: {fileID: 1846605024868111162, guid: 3f6cecc8e75851e4589eef93c6a66f0d, type: 3}
+  skillDatas: []
 --- !u!1 &944608935
 GameObject:
   m_ObjectHideFlags: 0
