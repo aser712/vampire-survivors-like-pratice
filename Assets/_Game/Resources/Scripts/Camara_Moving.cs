@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Camare_Moving : MonoBehaviour
+public class Camara_Moving : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 

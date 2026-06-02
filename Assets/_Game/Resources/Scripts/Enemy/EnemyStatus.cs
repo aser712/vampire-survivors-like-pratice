@@ -8,4 +8,6 @@ public class EnemyStatus : MonoBehaviour
     private int speed;
     private int damage;
     private int dropExp;
+
+
 }
