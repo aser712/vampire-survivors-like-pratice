@@ -7,7 +7,7 @@ public class EnemyData : ScriptableObject
     public string enemyName;
 
     [Header("½ºÅÈ")]
-    public int maxHp;
+    public int maxHP;
     public int attack;
     public int defense;
     public float speed;

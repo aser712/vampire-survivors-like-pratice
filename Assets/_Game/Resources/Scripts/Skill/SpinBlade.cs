@@ -25,9 +25,15 @@ public class SpinBlade : MonoBehaviour
     {
         if (player == null) return;
 
-
         angle += speed * Time.deltaTime;
         transform.position = player.position + new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0) * skillRange;
         transform.rotation = Quaternion.Euler(0, 0, Mathf.Rad2Deg*angle + 90);
+    }
+
+    public void Init(Transform player, float angle)
+    {
+        this.player = player;
+        transform.position = player.position + new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), Mathf.Sin(Mathf.Deg2Rad * angle), 0) * skillRange;
+        this.angle = Mathf.Deg2Rad*angle;
     }
 }

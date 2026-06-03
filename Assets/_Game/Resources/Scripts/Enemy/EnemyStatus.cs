@@ -9,5 +9,5 @@ public class EnemyStatus : MonoBehaviour
     private int damage;
     private int dropExp;
 
-
+    
 }

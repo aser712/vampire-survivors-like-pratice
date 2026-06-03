@@ -26,8 +26,6 @@ public class _SkillManager : MonoBehaviour
 
     public void UseBladeSkill()
     {
-        Debug.Log("UseBladeSkill ½ÇÇà");
-
         int i;
 
         for(i = 0; i < skillDatas.Length; i++)
@@ -38,18 +36,20 @@ public class _SkillManager : MonoBehaviour
             }
         }
 
+        int bladeInterval = 360 / skillDatas[i].skillLevel;
 
         for (int j = 0; j < skillDatas[i].skillLevel; j++)
         {
-            float angle = 2 * Mathf.PI / (j + 1);
+            float angle = bladeInterval * j;
 
             GameObject blade = Instantiate(
                 bladePrefab,
                 transform.position,
-                Quaternion.Euler(0, 0, Mathf.Deg2Rad*angle)
+                Quaternion.Euler(0, 0, angle)
             );
 
-            blade.GetComponent<SpinBlade>().player = transform;
+            blade.GetComponent<SpinBlade>().Init(transform, angle);
+
         }
 
 

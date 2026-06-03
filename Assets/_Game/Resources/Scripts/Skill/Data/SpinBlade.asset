@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f64a504b8c0c13f49b893f22a5369d06, type: 3}
   m_Name: SpinBlade
   m_EditorClassIdentifier: Assembly-CSharp::SkillData
-  skillName: 
-  level: 0
-  skillDamage: 0
+  skillName: SpinBlade
+  skillLevel: 3
+  skillDamage: 10
+  cooldown: 0
