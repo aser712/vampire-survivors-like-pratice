@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Level1
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   enemyName: Level1
-  maxHp: 100
+  maxHP: 100
+  HP: 100
   attack: 5
   defense: 0
   speed: 3

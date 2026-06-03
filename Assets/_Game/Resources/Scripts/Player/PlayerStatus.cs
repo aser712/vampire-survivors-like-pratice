@@ -20,7 +20,7 @@ public class PlayerStatus : MonoBehaviour
         {
             hp = 0;
             speed = 0;
-            Debug.Log("Player Dead");
+            Time.timeScale = 0f;
         }
     }
 
@@ -44,6 +44,19 @@ public class PlayerStatus : MonoBehaviour
             exp -= expToLevelUP;
 
             CheckLevelUP();
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            EnemyStatus enemy = collision.gameObject.GetComponent<EnemyStatus>();
+
+            TakeDamage(enemy.EnemyData.attack);
+
+            Vector3 knockbackDir = (enemy.transform.position - transform.position).normalized;
+            enemy.transform.position += knockbackDir * 0.5f;
+            Debug.Log(hp);
         }
     }
 }

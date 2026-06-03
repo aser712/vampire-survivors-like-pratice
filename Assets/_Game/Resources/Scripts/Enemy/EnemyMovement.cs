@@ -11,6 +11,7 @@ public class EnemyMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        player =  GameObject.FindWithTag("Player").transform;
     }
 
     // Update is called once per frame
@@ -19,4 +20,5 @@ public class EnemyMovement : MonoBehaviour
         Vector2 dir = (player.position - transform.position).normalized;
         rb.linearVelocity = dir * enemyData.speed;
     }
+    
 }

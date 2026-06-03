@@ -33,6 +33,8 @@ public class Player_Movement : MonoBehaviour
         status.GetExp(1000);
     }
 
+   
+
     // Update is called once per frame
     void FixedUpdate()
     {

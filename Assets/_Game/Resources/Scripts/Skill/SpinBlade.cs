@@ -36,4 +36,11 @@ public class SpinBlade : MonoBehaviour
         transform.position = player.position + new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), Mathf.Sin(Mathf.Deg2Rad * angle), 0) * skillRange;
         this.angle = Mathf.Deg2Rad*angle;
     }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            other.GetComponent<EnemyStatus>().TakeDamage(skillData.skillDamage);
+        }
+    }
 }
