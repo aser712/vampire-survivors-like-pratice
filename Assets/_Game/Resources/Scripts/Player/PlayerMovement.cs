@@ -30,7 +30,7 @@ public class Player_Movement : MonoBehaviour
     
     void OnExp(InputValue value)
     {
-        status.GetExp(1000);
+        status.GetExp(10);
     }
 
    

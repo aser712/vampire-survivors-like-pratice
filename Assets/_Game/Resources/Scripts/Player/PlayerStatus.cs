@@ -12,6 +12,8 @@ public class PlayerStatus : MonoBehaviour
     public int level = 1;
     public int exp = 0;
 
+    [SerializeField] private _SkillManager skillManager;
+    [SerializeField] private LevelManager levelManager;
     public void TakeDamage(int damage)
     {
         hp -= damage;
@@ -42,6 +44,7 @@ public class PlayerStatus : MonoBehaviour
         {
             level++;
             exp -= expToLevelUP;
+            levelManager.OpenLevelUp(skillManager.skillDatas);
 
             CheckLevelUP();
         }

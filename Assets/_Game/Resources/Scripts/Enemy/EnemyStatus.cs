@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyStatus : MonoBehaviour
@@ -6,6 +7,7 @@ public class EnemyStatus : MonoBehaviour
 
     public EnemyData EnemyData;
     [SerializeField] private int HP;
+    [SerializeField] private GameObject expPrefab;
 
     private void Awake()
     {
@@ -18,6 +20,10 @@ public class EnemyStatus : MonoBehaviour
         if (HP <= 0)
         {
             HP = 0;
+            GameObject orb = Instantiate(expPrefab, transform.position, Quaternion.identity);
+
+            orb.GetComponent<EXPOrb>().Initialize(EnemyData.expReward);
+
             Destroy(gameObject);
         }
     }

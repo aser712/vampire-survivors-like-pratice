@@ -187,3 +187,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStatus
   EnemyData: {fileID: 11400000, guid: 22f25e253a2632340a605999b62c7e7e, type: 2}
   HP: 0
+  expPrefab: {fileID: 5265040278548591564, guid: c9b15548f80c4f749922dbe563ec5550, type: 3}
